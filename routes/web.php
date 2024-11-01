@@ -1,6 +1,11 @@
 <?php
 
+use App\Http\Controllers\CourseController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\InstructorController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -13,8 +18,36 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
+
+
 Route::get('/', function () {
-    return ['Laravel' => app()->version()];
-});
+    return view('index'); // This will be your homepage view
+})->name('home');
+
+Route::get('/login', function () {
+    return view('auth.login'); // Ensure you're returning the correct view
+})->name('login');
+
+Route::post('/login', [UserController::class, 'login']);
+Route::get('/register', function () {
+    return view('auth.register'); // Ensure this is your registration page view
+})->name('register');
+
+Route::post('/register', [UserController::class, 'register']);
+Route::post('/logout', [UserController::class, 'logout'])->name('logout');
+
+
+Route::get('/courses/create', [CourseController::class, 'create'])->name('courses.create');
+Route::post('/courses', [CourseController::class, 'store'])->name('courses.store');
+
+
+
+
+Route::post('/instructors', [InstructorController::class, 'register']);
+
+
+
 
 require __DIR__.'/auth.php';
